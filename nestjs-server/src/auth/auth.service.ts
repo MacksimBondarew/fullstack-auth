@@ -56,7 +56,6 @@ export class AuthService {
 					res.clearCookie(
 						this.configService.getOrThrow<string>('SESSION_NAME')
 					)
-					console.log('logout')
 					resolve()
 				}
 			})
@@ -65,7 +64,6 @@ export class AuthService {
 	private saveSession(req: Request, user: User) {
 		return new Promise((resolve, reject) => {
 			req.session.userId = user.id
-			console.log(req.session)
 			req.session.save(error => {
 				if (error) {
 					reject(
