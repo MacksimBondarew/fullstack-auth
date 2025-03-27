@@ -38,7 +38,11 @@ export class AuthService {
 			AuthMethod.CREDENTIALS,
 			false
 		)
-		return this.saveSession(req, newUser)
+
+		return {
+			messege:
+				'You are successfully registered. Please confirm your email'
+		}
 	}
 	public async login(req: Request, dto: LoginDto) {
 		const user = await this.userService.findByEmail(dto.email)
