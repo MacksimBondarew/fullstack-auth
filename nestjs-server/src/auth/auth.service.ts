@@ -17,6 +17,7 @@ import { LoginDto } from './dto/login.dto'
 import { RegisterDto } from './dto/register.dto'
 import { EmailConfirmationService } from './email-confirmation/email-confirmation.service'
 import { ProviderService } from './provider/provider.service'
+import { TwoFactorAuthService } from './two-factor-auth/two-factor-auth.service'
 
 @Injectable()
 export class AuthService {
@@ -25,7 +26,8 @@ export class AuthService {
 		private readonly configService: ConfigService,
 		private readonly providerService: ProviderService,
 		private readonly prismaService: PrismaService,
-		private readonly emailConfirmationService: EmailConfirmationService
+		private readonly emailConfirmationService: EmailConfirmationService,
+		private readonly twoFactorAuthService: TwoFactorAuthService
 	) {}
 	public async register(req: Request, dto: RegisterDto) {
 		const isExists = await this.userService.findByEmail(dto.email)
@@ -41,7 +43,6 @@ export class AuthService {
 			false
 		)
 		await this.emailConfirmationService.sendVerificationToken(newUser.email)
-		console.log('newUser', newUser)
 		return {
 			messege:
 				'You are successfully registered. Please confirm your email'
@@ -62,6 +63,18 @@ export class AuthService {
 			)
 			throw new UnauthorizedException(
 				'Email is not confirmed. Please check your email and confirm it.'
+			)
+		}
+		if (user.isTwoFactorEnabled) {
+			if (!dto.code) {
+				await this.twoFactorAuthService.sendTwoFactorToken(user.email)
+				return {
+					message: 'Please enter the code sent to your email.'
+				}
+			}
+			await this.twoFactorAuthService.validateTwoFactorToken(
+				user.email,
+				dto.code
 			)
 		}
 		return this.saveSession(req, user)
@@ -130,6 +143,7 @@ export class AuthService {
 		})
 	}
 	public saveSession(req: Request, user: User) {
+		console.log(user)
 		return new Promise((resolve, reject) => {
 			req.session.userId = user.id
 			req.session.save(error => {
