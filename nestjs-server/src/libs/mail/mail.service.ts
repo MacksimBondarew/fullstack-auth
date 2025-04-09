@@ -31,7 +31,7 @@ export class MailService {
 		const html = await render(TwoFactorAuthTemplate({ token }))
 
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-return
-		return this.sendMail(email, 'Подтверждение вашей личности', html)
+		return this.sendMail(email, 'Confirmation email', html)
 	}
 	private sendMail(email: string, subject: string, html: string) {
 		return this.mailerService.sendMail({

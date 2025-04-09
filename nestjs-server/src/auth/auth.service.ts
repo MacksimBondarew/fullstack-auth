@@ -108,6 +108,7 @@ export class AuthService {
 			'',
 			profile.name,
 			profile.picture,
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 			AuthMethod[profile.provider.toUpperCase()],
 			true
 		)
@@ -143,7 +144,6 @@ export class AuthService {
 		})
 	}
 	public saveSession(req: Request, user: User) {
-		console.log(user)
 		return new Promise((resolve, reject) => {
 			req.session.userId = user.id
 			req.session.save(error => {
