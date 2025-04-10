@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
 import { MainProvider } from '@/shared/providers'
-
 import '@/shared/styles/globals.css'
+import { ToggleTheme } from '@/shared/components/ui'
 
 export const metadata: Metadata = {
 	title: 'FullStack Authorization',
@@ -22,7 +22,14 @@ export default function RootLayout({
 	return (
 		<html lang='en'>
 			<body className={inter.className}>
-				<MainProvider>{children}</MainProvider>
+				<MainProvider>
+					<div className='relative flex min-h-screen flex-col'>
+						<ToggleTheme />
+						<div className='flex h-screen w-full items-center justify-center px-4'>
+							{children}
+						</div>
+					</div>
+				</MainProvider>
 			</body>
 		</html>
 	)

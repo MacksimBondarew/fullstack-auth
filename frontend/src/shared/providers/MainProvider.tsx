@@ -2,12 +2,19 @@
 
 import { type PropsWithChildren } from 'react'
 
-import { TanstackQueryProvider } from './index'
+import { TanstackQueryProvider, ThemeProvider } from './index'
 
 export function MainProvider({ children }: PropsWithChildren<unknown>) {
 	return (
 		<TanstackQueryProvider>
-            {children}
+			<ThemeProvider
+				attribute='class'
+				defaultTheme='system'
+				disableTransitionOnChange
+				storageKey='fullstack-theme'
+			>
+				{children}
+			</ThemeProvider>
 		</TanstackQueryProvider>
 	)
 }
