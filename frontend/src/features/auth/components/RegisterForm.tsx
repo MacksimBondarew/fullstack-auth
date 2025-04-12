@@ -20,6 +20,7 @@ import {
 import { RegisterSchema, TypeRegisterSchema } from '../schemes'
 
 import { AuthWrapper } from './index'
+import { toast } from 'sonner'
 
 export function RegisterForm() {
 	const { theme } = useTheme()
@@ -37,7 +38,7 @@ export function RegisterForm() {
 		if (recaptchaValue) {
 			console.log(data)
 		} else {
-			console.log('Recaptcha true')
+			toast.error('Please verify that you are not a robot.')
 		}
 	}
 	return (

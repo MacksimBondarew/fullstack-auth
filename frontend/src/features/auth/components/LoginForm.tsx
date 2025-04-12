@@ -1,6 +1,9 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTheme } from 'next-themes'
+import { useState } from 'react'
+import ReCAPTCHA from 'react-google-recaptcha'
 import { useForm } from 'react-hook-form'
 
 import {
@@ -14,14 +17,14 @@ import {
 	Input
 } from '@/shared/components/ui'
 
-import {
-	LoginSchema,
-	TypeLoginSchema,
-} from '../schemes'
+import { LoginSchema, TypeLoginSchema } from '../schemes'
 
 import { AuthWrapper } from './index'
+import { toast } from 'sonner'
 
 export function LoginForm() {
+	const { theme } = useTheme()
+	const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null)
 	const form = useForm<TypeLoginSchema>({
 		resolver: zodResolver(LoginSchema),
 		defaultValues: {
@@ -30,7 +33,11 @@ export function LoginForm() {
 		}
 	})
 	const onSubmit = (data: TypeLoginSchema) => {
-		console.log(data)
+		if (recaptchaValue) {
+			console.log(data)
+		} else {
+			toast.error('Please verify that you are not a robot.')
+		}
 	}
 	return (
 		<AuthWrapper
@@ -79,6 +86,16 @@ export function LoginForm() {
 							</FormItem>
 						)}
 					/>
+					<div className='flex justify-center'>
+						<ReCAPTCHA
+							sitekey={
+								process.env
+									.NEXT_PUBLIC_GOOGLE_RECAPTCHA_SITE_KEY as string
+							}
+							onChange={setRecaptchaValue}
+							theme={theme === 'light' ? 'light' : 'dark'}
+						/>
+					</div>
 					<Button type='submit' className='w-full'>
 						Create an account
 					</Button>

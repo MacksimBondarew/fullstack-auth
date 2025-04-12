@@ -2,7 +2,7 @@
 
 import { type PropsWithChildren } from 'react'
 
-import { TanstackQueryProvider, ThemeProvider } from './index'
+import { TanstackQueryProvider, ThemeProvider, ToastProvider } from './index'
 
 export function MainProvider({ children }: PropsWithChildren<unknown>) {
 	return (
@@ -13,6 +13,7 @@ export function MainProvider({ children }: PropsWithChildren<unknown>) {
 				disableTransitionOnChange
 				storageKey='fullstack-theme'
 			>
+				<ToastProvider />
 				{children}
 			</ThemeProvider>
 		</TanstackQueryProvider>
