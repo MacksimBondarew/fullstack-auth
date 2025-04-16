@@ -21,6 +21,7 @@ import { RegisterSchema, TypeRegisterSchema } from '../schemes'
 
 import { AuthWrapper } from './index'
 import { toast } from 'sonner'
+import { useRegisterMutation } from '../hooks/useRegisterMutations'
 
 export function RegisterForm() {
 	const { theme } = useTheme()
@@ -34,9 +35,12 @@ export function RegisterForm() {
 			passwordRepeat: ''
 		}
 	})
+
+const { register, isLoadingRegister } = useRegisterMutation()
+
 	const onSubmit = (data: TypeRegisterSchema) => {
 		if (recaptchaValue) {
-			console.log(data)
+			register({  values: data, recaptcha: recaptchaValue })
 		} else {
 			toast.error('Please verify that you are not a robot.')
 		}
@@ -65,6 +69,7 @@ export function RegisterForm() {
 										type='text'
 										{...field}
 										placeholder='John Doe'
+										disabled={isLoadingRegister}
 									/>
 								</FormControl>
 								<FormMessage />
@@ -82,6 +87,7 @@ export function RegisterForm() {
 										{...field}
 										type='email'
 										placeholder='johndoe@example.com'
+										disabled={isLoadingRegister}
 									/>
 								</FormControl>
 								<FormMessage />
@@ -99,6 +105,7 @@ export function RegisterForm() {
 										{...field}
 										type='password'
 										placeholder='*******'
+										disabled={isLoadingRegister}
 									/>
 								</FormControl>
 								<FormMessage />
@@ -116,6 +123,7 @@ export function RegisterForm() {
 										{...field}
 										type='password'
 										placeholder='*******'
+										disabled={isLoadingRegister}
 									/>
 								</FormControl>
 								<FormMessage />

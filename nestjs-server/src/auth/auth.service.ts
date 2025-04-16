@@ -29,7 +29,7 @@ export class AuthService {
 		private readonly emailConfirmationService: EmailConfirmationService,
 		private readonly twoFactorAuthService: TwoFactorAuthService
 	) {}
-	public async register(req: Request, dto: RegisterDto) {
+	public async register(dto: RegisterDto) {
 		const isExists = await this.userService.findByEmail(dto.email)
 		if (isExists) {
 			throw new ConflictException('User already exists')

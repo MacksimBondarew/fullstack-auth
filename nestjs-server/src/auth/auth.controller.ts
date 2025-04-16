@@ -33,7 +33,7 @@ export class AuthController {
 	@Recaptcha()
 	@HttpCode(HttpStatus.OK)
 	public async register(@Req() req: Request, @Body() dto: RegisterDto) {
-		return this.authService.register(req, dto)
+		return this.authService.register(dto)
 	}
 	@Post('login')
 	@Recaptcha()
