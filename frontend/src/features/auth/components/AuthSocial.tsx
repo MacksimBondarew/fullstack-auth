@@ -6,15 +6,30 @@ import { FaGoogle, FaYandex } from 'react-icons/fa'
 
 import { Button } from '@/shared/components/ui'
 
+import { authService } from '../services'
+
 export function AuthSocial() {
+	const router = useRouter()
+	const { mutateAsync } = useMutation({
+		mutationKey: ['oauth by provider'],
+		mutationFn: async (provider: 'google' | 'yandex') =>
+			await authService.oauthByProvider(provider)
+	})
+	const onClick = async (provider: 'google' | 'yandex') => {
+		const response = await mutateAsync(provider)
+
+		if (response) {
+			router.push(response.url)
+		}
+	}
 	return (
 		<>
 			<div className='grid grid-cols-2 gap-6'>
-				<Button variant='outline'>
+				<Button variant='outline' onClick={() => onClick('google')}>
 					<FaGoogle className='mr-2 size-4' />
 					Google
 				</Button>
-				<Button variant='outline'>
+				<Button variant='outline' onClick={() => onClick('yandex')}>
 					<FaYandex className='mr-2 size-4' />
 					Yandex
 				</Button>
