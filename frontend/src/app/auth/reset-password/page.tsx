@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
 
-import { NewVerificationForm } from '@/features/auth/components'
+import { ResetPasswordForm } from '@/features/auth/components'
 
 export const metadata: Metadata = {
-	title: 'Confirm Email'
+	title: 'Reset password'
 }
 
 export default function NewVerificationPage() {
-	return <NewVerificationForm />
+	return <ResetPasswordForm />
 }

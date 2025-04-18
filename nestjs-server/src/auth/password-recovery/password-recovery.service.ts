@@ -14,9 +14,6 @@ import { UserService } from '@/user/user.service'
 import { NewPasswordDto } from './dto/new-password.dto'
 import { ResetPasswordDto } from './dto/reset-password.dto'
 
-/**
- * Сервис для управления восстановлением пароля.
- */
 @Injectable()
 export class PasswordRecoveryService {
 	public constructor(
