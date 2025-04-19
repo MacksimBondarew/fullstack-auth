@@ -97,8 +97,6 @@ cd fullstack-auth
 
 ### 2. Configure environment variables
 
-> Створи `.env` файли в обох папках: `nestjs-server/.env` і `frontend/.env`.
-
 #### 📦 `nestjs-server/.env`
 
 ```
