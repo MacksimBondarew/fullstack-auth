@@ -182,6 +182,14 @@ const config = {
         "fromEnvVar": null,
         "value": "windows",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "windows"
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -199,6 +207,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -207,8 +216,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"./__generated__\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id                 String     @id @default(uuid())\n  email              String     @unique\n  password           String\n  displayName        String\n  picture            String?\n  role               UserRole   @default(REGULAR)\n  isVerified         Boolean    @default(false) @map(\"is_verified\")\n  isTwoFactorEnabled Boolean    @default(false) @map(\"is_two_factor_enabled\")\n  method             AuthMethod\n  accounts           Account[]\n  createdAt          DateTime   @default(now()) @map(\"created_at\")\n  updatedAt          DateTime   @updatedAt @map(\"updated_at\")\n\n  @@map(\"users\")\n}\n\nmodel Account {\n  id           String   @id @default(uuid())\n  type         String\n  provider     String\n  refreshToken String?  @map(\"refresh_token\")\n  accessToken  String?  @map(\"access_token\")\n  expiresAt    Int      @map(\"expires_at\")\n  createdAt    DateTime @default(now()) @map(\"created_at\")\n  updatedAt    DateTime @updatedAt @map(\"updated_at\")\n  user         User?    @relation(fields: [userId], references: [id])\n  userId       String   @map(\"user_id\")\n\n  @@map(\"accounts\")\n}\n\nmodel Token {\n  id        String    @id @default(uuid())\n  email     String\n  token     String    @unique\n  type      TokenType\n  expiresIn DateTime  @map(\"expires_in\")\n  createdAt DateTime  @default(now()) @map(\"created_at\")\n\n  @@map(\"tokens\")\n}\n\nenum UserRole {\n  REGULAR\n  ADMIN\n}\n\nenum AuthMethod {\n  CREDENTIALS\n  GOOGLE\n  YANDEX\n}\n\nenum TokenType {\n  VERIFICATION\n  TWO_FACTOR\n  PASSWORD_RESET\n}\n",
-  "inlineSchemaHash": "05a54be0784fef29bcb738d91a8d47765b3917946d143cfe3403431ff82c3fd4",
+  "inlineSchema": "generator client {\n  provider      = \"prisma-client-js\"\n  output        = \"./__generated__\"\n  binaryTargets = [\"native\", \"windows\", \"debian-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id                 String     @id @default(uuid())\n  email              String     @unique\n  password           String\n  displayName        String\n  picture            String?\n  role               UserRole   @default(REGULAR)\n  isVerified         Boolean    @default(false) @map(\"is_verified\")\n  isTwoFactorEnabled Boolean    @default(false) @map(\"is_two_factor_enabled\")\n  method             AuthMethod\n  accounts           Account[]\n  createdAt          DateTime   @default(now()) @map(\"created_at\")\n  updatedAt          DateTime   @updatedAt @map(\"updated_at\")\n\n  @@map(\"users\")\n}\n\nmodel Account {\n  id           String   @id @default(uuid())\n  type         String\n  provider     String\n  refreshToken String?  @map(\"refresh_token\")\n  accessToken  String?  @map(\"access_token\")\n  expiresAt    Int      @map(\"expires_at\")\n  createdAt    DateTime @default(now()) @map(\"created_at\")\n  updatedAt    DateTime @updatedAt @map(\"updated_at\")\n  user         User?    @relation(fields: [userId], references: [id])\n  userId       String   @map(\"user_id\")\n\n  @@map(\"accounts\")\n}\n\nmodel Token {\n  id        String    @id @default(uuid())\n  email     String\n  token     String    @unique\n  type      TokenType\n  expiresIn DateTime  @map(\"expires_in\")\n  createdAt DateTime  @default(now()) @map(\"created_at\")\n\n  @@map(\"tokens\")\n}\n\nenum UserRole {\n  REGULAR\n  ADMIN\n}\n\nenum AuthMethod {\n  CREDENTIALS\n  GOOGLE\n  YANDEX\n}\n\nenum TokenType {\n  VERIFICATION\n  TWO_FACTOR\n  PASSWORD_RESET\n}\n",
+  "inlineSchemaHash": "9535a3f06d0bbce0b3a5699780eadaaf8884eeac8047d231e302c01a975a3496",
   "copyEngine": true
 }
 config.dirname = '/'
