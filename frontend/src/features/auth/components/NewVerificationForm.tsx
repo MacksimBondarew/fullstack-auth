@@ -17,7 +17,6 @@ export function NewVerificationForm() {
 
 	useEffect(() => {
 		verification(token)
-        console.log("token")
 	}, [token])
 
 	return (
