@@ -54,6 +54,7 @@ export class FetchClient {
 			...options,
 			...(!!this.options && { ...this.options }),
 			method,
+			credentials: "include",
 			headers: {
 				...(!!options?.headers && options.headers),
 				...this.headers
